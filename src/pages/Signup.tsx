@@ -16,7 +16,8 @@ export default function Signup() {
 
   const isEmailValid = values.email.includes('@') && values.email.length > 5;
   const isPasswordValid = values.password.length >= 8;
-  const isConfirmValid = values.confirmPassword === values.password && values.confirmPassword.length > 0;
+  const isConfirmValid =
+    values.confirmPassword === values.password && values.confirmPassword.length > 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ export default function Signup() {
     setLoading(true);
     setError(null);
     try {
-      await new Promise(res => setTimeout(res, 1000));
+      await new Promise((res) => setTimeout(res, 1000));
     } catch {
       setError('Failed to sign up. Please try again.');
     } finally {
@@ -41,12 +42,14 @@ export default function Signup() {
     <main className="auth-container">
       <h1 className="auth-title">Sign Up</h1>
       <form onSubmit={handleSubmit} noValidate>
+        {/* Email Field */}
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
             type="email"
+            className="input"
             autoComplete="username"
             value={values.email}
             onChange={handleChange}
@@ -56,12 +59,13 @@ export default function Signup() {
             aria-errormessage="email-error"
           />
           {touched.email && !isEmailValid && (
-            <div id="email-error" className="auth-error" role="alert">
+            <div id="email-error" className="form-error" role="alert">
               Please enter a valid email.
             </div>
           )}
         </div>
 
+        {/* Password Field */}
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <div className="password-wrapper">
@@ -69,6 +73,7 @@ export default function Signup() {
               id="password"
               name="password"
               type={showPassword ? 'text' : 'password'}
+              className="input password-field"
               autoComplete="new-password"
               value={values.password}
               onChange={handleChange}
@@ -80,19 +85,20 @@ export default function Signup() {
             <button
               type="button"
               className="toggle-password"
-              onClick={() => setShowPassword(prev => !prev)}
+              onClick={() => setShowPassword((prev) => !prev)}
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? '🙈' : '👁️'}
             </button>
           </div>
           {touched.password && !isPasswordValid && (
-            <div id="password-error" className="auth-error" role="alert">
+            <div id="password-error" className="form-error" role="alert">
               Password must be at least 8 characters.
             </div>
           )}
         </div>
 
+        {/* Confirm Password Field */}
         <div className="form-group">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <div className="password-wrapper">
@@ -100,6 +106,7 @@ export default function Signup() {
               id="confirmPassword"
               name="confirmPassword"
               type={showConfirmPassword ? 'text' : 'password'}
+              className="input password-field"
               autoComplete="new-password"
               value={values.confirmPassword}
               onChange={handleChange}
@@ -111,25 +118,27 @@ export default function Signup() {
             <button
               type="button"
               className="toggle-password"
-              onClick={() => setShowConfirmPassword(prev => !prev)}
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
               aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
             >
               {showConfirmPassword ? '🙈' : '👁️'}
             </button>
           </div>
           {touched.confirmPassword && !isConfirmValid && (
-            <div id="confirm-error" className="auth-error" role="alert">
+            <div id="confirm-error" className="form-error" role="alert">
               Passwords do not match.
             </div>
           )}
         </div>
 
+        {/* Terms Checkbox */}
         <div className="form-group">
-          <label>
+          <label className="checkbox-label">
             <input type="checkbox" required /> I agree to the Terms and Privacy Policy
           </label>
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading || !isEmailValid || !isPasswordValid || !isConfirmValid}
@@ -138,7 +147,12 @@ export default function Signup() {
           {loading ? 'Signing up…' : 'Sign Up'}
         </button>
 
-        {error && <div className="auth-error" role="alert">{error}</div>}
+        {/* Global Error */}
+        {error && (
+          <div className="form-error form-error-global" role="alert">
+            {error}
+          </div>
+        )}
       </form>
     </main>
   );

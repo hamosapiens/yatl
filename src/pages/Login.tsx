@@ -32,12 +32,14 @@ export default function Login() {
     <main className="auth-container">
       <h1 className="auth-title">Log In</h1>
       <form onSubmit={handleSubmit} noValidate>
+        {/* Email Field */}
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
             type="email"
+            className="input"
             autoComplete="username"
             value={values.email}
             onChange={handleChange}
@@ -47,12 +49,13 @@ export default function Login() {
             aria-errormessage="email-error"
           />
           {touched.email && !isEmailValid && (
-            <div id="email-error" className="auth-error" role="alert">
+            <div id="email-error" className="form-error" role="alert">
               Please enter a valid email.
             </div>
           )}
         </div>
 
+        {/* Password Field */}
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <div className="password-wrapper">
@@ -60,6 +63,7 @@ export default function Login() {
               id="password"
               name="password"
               type={showPassword ? 'text' : 'password'}
+              className="input password-field"
               autoComplete="current-password"
               value={values.password}
               onChange={handleChange}
@@ -78,12 +82,13 @@ export default function Login() {
             </button>
           </div>
           {touched.password && !isPasswordValid && (
-            <div id="password-error" className="auth-error" role="alert">
+            <div id="password-error" className="form-error" role="alert">
               Password must be at least 8 characters.
             </div>
           )}
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading || !isEmailValid || !isPasswordValid}
@@ -92,7 +97,8 @@ export default function Login() {
           {loading ? 'Logging in…' : 'Log In'}
         </button>
 
-        {error && <div className="auth-error" role="alert">{error}</div>}
+        {/* Global Error */}
+        {error && <div className="form-error form-error-global" role="alert">{error}</div>}
       </form>
     </main>
   );

@@ -67,7 +67,7 @@ button:focus-visible {
   }
 } */
 
-body {
+/* body {
   font-family: sans-serif;
   padding: 2rem;
   margin: 0;
@@ -79,4 +79,4 @@ input, button {
   padding: 0.5rem;
   width: 100%;
   max-width: 300px;
-}
+} */
