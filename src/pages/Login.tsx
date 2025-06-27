@@ -15,18 +15,37 @@ export default function Login() {
   const isEmailValid = values.email.includes('@') && values.email.length > 5;
   const isPasswordValid = values.password.length >= 8;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      await new Promise(res => setTimeout(res, 1000));
-    } catch {
-      setError('Failed to login. Please try again.');
-    } finally {
-      setLoading(false);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+      }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.message || 'Failed to login. Please try again.');
+      return;
     }
-  };
+
+    const data = await res.json();
+    localStorage.setItem('token', data.token);
+    console.log('Logged in as:', values.email);
+  } catch {
+    setError('Network error. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <main className="auth-container">

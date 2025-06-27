@@ -19,24 +19,45 @@ export default function Signup() {
   const isConfirmValid =
     values.confirmPassword === values.password && values.confirmPassword.length > 0;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!isConfirmValid) {
-      setError('Passwords do not match.');
+  if (!isConfirmValid) {
+    setError('Passwords do not match.');
+    return;
+  }
+
+  setLoading(true);
+  setError(null);
+
+  try {
+    const res = await fetch('/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+      }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.message || 'Failed to sign up. Please try again.');
       return;
     }
 
-    setLoading(true);
-    setError(null);
-    try {
-      await new Promise((res) => setTimeout(res, 1000));
-    } catch {
-      setError('Failed to sign up. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    const data = await res.json();
+    localStorage.setItem('token', data.token);
+    console.log('Signed up as:', values.email);
+    // Optionally redirect
+    // window.location.href = '/dashboard';
+  } catch {
+    setError('Network error. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <main className="auth-container">
