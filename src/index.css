@@ -1,4 +1,4 @@
-:root {
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -65,4 +65,18 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+
+body {
+  font-family: sans-serif;
+  padding: 2rem;
+  margin: 0;
+  background: #f7f7f7;
+}
+input, button {
+  display: block;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 300px;
 }
